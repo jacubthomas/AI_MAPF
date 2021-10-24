@@ -1,0 +1,60 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../AStarPlanner.h
+MAPFInstance.h
+../MAPFInstance.h
+ostream
+-
+tuple
+-
+
+../MAPFInstance.h
+vector
+-
+list
+-
+string
+-
+
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/AStarPlanner.cpp
+AStarPlanner.h
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/AStarPlanner.h
+queue
+-
+unordered_map
+-
+algorithm
+-
+
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/AStarPlanner.h
+MAPFInstance.h
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/MAPFInstance.h
+ostream
+-
+tuple
+-
+
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/MAPFInstance.h
+vector
+-
+list
+-
+string
+-
+
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/task0/task0.cpp
+iostream
+-
+fstream
+-
+MAPFInstance.h
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/task0/MAPFInstance.h
+AStarPlanner.h
+/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/task0/AStarPlanner.h
+
