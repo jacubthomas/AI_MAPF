@@ -3,11 +3,12 @@
 #include <ostream>
 #include <tuple>
 
-// Vertex constraint <a, x, -1, t>
+// Vertex constraint <a, x, -1, t, VERTEX>
 // that prohibits agent a from being at location x at timestep t
-// Edge constraint <a, x, y, t>
+// Edge constraint <a, x, y, t, EDGE>
 // that prohibits agent a from moving from locations x to y from timesteps t-1 to t
-typedef tuple<int, int, int, int > Constraint;
+enum ConstraintType {VERTEX, EDGE};
+typedef tuple<int, int, int, int, ConstraintType> Constraint;
 
 // Path is a sequence of locations,
 // where path[i] represents the location at timestep i
