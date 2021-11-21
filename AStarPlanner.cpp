@@ -50,8 +50,6 @@ bool AStarPlanner::evaluateConstraints(Constraint abide1, Constraint abide2, con
             get<3>(con) == get<3>(abide2) &&
             get<4>(con) == get<4>(abide2))
         {
-            if(get<0>(abide2) == 3 && get<1>(abide2) == 17 && get<2>(abide2) == 25 && get<3>(abide2) == 4 && get<4>(abide2) == 1)
-                cerr << "SSSSSSSSSSSSUUUUUUUUUUCCCCCCCCEEEEEEESSSSSSSS" << endl;
             safe = false;
         }
     }

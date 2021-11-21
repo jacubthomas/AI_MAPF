@@ -1,56 +1,23 @@
 #include <PrioritizedSearch.h>
 #include <iostream>
-
 using namespace std;
 
-/*
-  this can be improved upon, given time permits:
-  extend goal blocking to check/prevent lesser agents from blocking path, further away from higher 
-  agent's goal than the implemented adjacent square; that is, provided, it still blocks the path.
-  imagine a scenario w/ a narrow corridor
-
-  s_b s_a ... ... ... g_a ... ... ... g_b
-  .@. .@. ... .@. .@. .@. .@. .@. .@. .@. 
-
-*/
 void PrioritizedSearch::preventGoalBlocking(list<Constraint> &constraints, int agent, int pathlength)
 {
-  // // consider all paths into agent's goal
-  // list<int> adj_locs = a_star.ins.get_adjacent_locations(a_star.ins.goal_locations.at(agent));
-
-  // // agent has one (or no) path into goal
-  // if(adj_locs.size() < 2)
-  // {
-  //   // consider all agents w/ lesser priority
-  //   for(int i=agent+1; i<a_star.ins.num_of_agents;i++)
-  //   {
-  //     // compare path into goal against agent's goal placement
-  //     int adj_tile = adj_locs.front();
-  //     if(i!=agent && adj_tile == a_star.ins.goal_locations.at(i))
-  //     {
-  //       // block agent w/ lesser priority from reaching goal prior to this->agent w/ higher priority
-  //       Constraint c = Constraint(i, adj_tile, -1, pathlength-3, VERTEX);
-  //       constraints.push_back(c);
-  //     }
-  //   }
-  // }
-  // else // no goal blocking here// no goal blocking here
-  // { 
-    // consider all other agents
-    for(int i=0; i<a_star.ins.num_of_agents;i++)
+  // consider all other agents
+  for(int i=0; i<a_star.ins.num_of_agents;i++)
+  {
+    // don't look at this->agent
+      if(i!=agent)
     {
-      // don't look at this->agent
-       if(i!=agent)
+      // enact massive f penalty for crossing over a goal location after it's been reached
+      for(int j=pathlength-2; j<100; j++)
       {
-        // enact massive f penalty for crossing over a goal location after it's been reached
-        for(int j=pathlength-2; j<100; j++)
-        {
-          Constraint c = Constraint(i, a_star.ins.goal_locations.at(agent), -1, j, VERTEX);
-          constraints.push_back(c);
-        }
+        Constraint c = Constraint(i, a_star.ins.goal_locations.at(agent), -1, j, VERTEX);
+        constraints.push_back(c);
       }
     }
-  // }
+  }
 }
 vector<Path> PrioritizedSearch::find_solution() {
 
@@ -121,7 +88,6 @@ vector<Path> PrioritizedSearch::find_solution() {
             // x cannot be on top of i
             c = Constraint(x, paths[i].at(step), -1, time, VERTEX);
             constraints.push_back(c);
-            // cerr << "constraint: " << x << " : " << paths[i].at(step) << " : "<< -1 << " : " << time<< " : VERTEX" << endl; 
             
             // x cannot move into i
             list<int> adj_loc = a_star.ins.get_adjacent_locations(paths[i].at(step));
