@@ -33,10 +33,11 @@ struct AStarNode {
   int g;
   int h;
   AStarNode* parent;
+  int timestep;
 
-  AStarNode(): location(-1), g(-1), h(-1), parent(nullptr) {}
-  AStarNode(int location, int g, int h, AStarNode* parent):
-    location(location), g(g), h(h), parent(parent) {}
+  AStarNode(): location(-1), g(-1), h(-1), parent(nullptr), timestep(0) {}
+  AStarNode(int location, int g, int h, AStarNode* parent,  int timestep):
+    location(location), g(g), h(h), parent(parent),  timestep(timestep) {}
 };
 
 // This function is used by priority_queue to prioritize nodes
@@ -52,9 +53,12 @@ struct CompareAStarNode {
 class AStarPlanner {
 public:
   const MAPFInstance& ins;
+  
 
   AStarPlanner(const MAPFInstance& ins): ins(ins) {}
   Path find_path(int agent_id, const list<Constraint>& constraints = {});
+  bool evaluateConstraints(Constraint abide1, Constraint abide2, const list<Constraint>& constraints);
+  bool isGoalBlocked(int agent_i, int current_location);
 private:
   // used to retrieve the path from the goal node
   Path make_path(const AStarNode* goal_node) const;

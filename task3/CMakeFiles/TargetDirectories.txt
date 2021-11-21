@@ -1,0 +1,3 @@
+/Users/jacobharrington/Public/CSCI-360/Project_3/code/task3/CMakeFiles/rebuild_cache.dir
+/Users/jacobharrington/Public/CSCI-360/Project_3/code/task3/CMakeFiles/edit_cache.dir
+/Users/jacobharrington/Public/CSCI-360/Project_3/code/task3/CMakeFiles/task3.dir

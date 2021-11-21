@@ -1,4 +1,4 @@
-# Install script for directory: /Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/task1
+# Install script for directory: /Users/jacobharrington/Public/CSCI-360/Project_3/code/task1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/Staple39/Downloads/2019 - MAPF programming - Prioritized Planning Thereotical/code/task1/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/jacobharrington/Public/CSCI-360/Project_3/code/task1/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
