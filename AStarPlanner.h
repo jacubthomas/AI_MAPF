@@ -53,9 +53,12 @@ struct CompareAStarNode {
 class AStarPlanner {
 public:
   const MAPFInstance& ins;
-  
+  clock_t start;
+  double end = 5;
 
-  AStarPlanner(const MAPFInstance& ins): ins(ins) {}
+  AStarPlanner(const MAPFInstance& ins): ins(ins) {
+    start = clock();
+  }
   Path find_path(int agent_id, const list<Constraint>& constraints = {});
   bool evaluateConstraints(Constraint abide1, Constraint abide2, const list<Constraint>& constraints);
   bool isGoalBlocked(int agent_i, int current_location);

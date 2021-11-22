@@ -2,6 +2,8 @@
 #include <vector>
 #include <list>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -10,7 +12,9 @@ public:
     vector<int> start_locations;
     vector<int> goal_locations;
     int num_of_agents;
-
+    clock_t start;
+    double end;
+    
     // return true if the location is blocked by an obstacle.
     inline bool blocked(int location) const {return my_map[location]; }
     inline size_t map_size() const { return rows * cols; }
@@ -21,6 +25,8 @@ public:
     list<int> get_adjacent_locations(int location) const; // return unblocked adjacent locations
     bool load_instance(const string& fname); // load instance from file
     void print_instance() const;
+
+    void clockStart();
 
 private:
   vector<bool> my_map; // my_map[i] = true iff location i is blocked

@@ -36,7 +36,10 @@ vector<Path> PrioritizedSearch::find_solution() {
     for (int i : priorities) {
       // TODO: Transform already planned paths into constraints
       //  Replace the following line with something like paths[i] = a_star.find_path(i, constraints);
-      
+      if((clock() - start)/(double) CLOCKS_PER_SEC > end)
+        {
+            return paths; // return "No solution"
+        }
       // agent 0 is top priority, no constraints 
       if(i == 0)
         paths[i] = a_star.find_path(i);
@@ -61,8 +64,9 @@ vector<Path> PrioritizedSearch::find_solution() {
                 c = Constraint(x, paths[i].at(step), -1, k, VERTEX);
                 constraints.push_back(c);
               }
-              
-              // check for adj squares, if == 2, this is a passage way block - can't be here [0,t-1], repeat until adj > 2
+              if(step > 0)
+              {
+                // check for adj squares, if == 2, this is a passage way block - can't be here [0,t-1], repeat until adj > 2
               int backstep = step-1;
               list<int> path_blocker= a_star.ins.get_adjacent_locations(paths[i].at(backstep));
               while(path_blocker.size() == 2)
@@ -83,6 +87,7 @@ vector<Path> PrioritizedSearch::find_solution() {
                   c = Constraint(x, tiles, -1, backstep, VERTEX);
                   constraints.push_back(c);
                 }
+              }
               }
             }
             // x cannot be on top of i

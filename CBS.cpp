@@ -6,9 +6,7 @@
 
 Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
 {
-    node->paths.at(0);
     // look at every step in a
-    // later, if path[a] is shorter than path[b], verify b againts last a location
     for(int step: a)
     {
         // examine every other path against a's path
@@ -42,7 +40,7 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                         {
                             return Collision(a, p, j, p.at(j), agent_index, i, 0);
                         }
-                        if(a.size() > j+ 1 && p.size() > j+1)
+                        if(a.size() > j+1 && p.size() > j+1)
                         {
                             if(a.at(j) == p.at(j+1) && a.at(j+1) == p.at(j))
                             {
@@ -96,11 +94,11 @@ void CBS::handleCollision(priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSN
                 newNode->constraints.push_back(c);
             }
         } 
-        // Edge-based collision - they ran into eachother
+        // Edge-based collision - they ran into each other
         else
         {
             // int random_assign = rand() % 4;
-            int random_assign = rand() % 4;
+            int random_assign = rand() % 1;
             if(random_assign == 0)
             {
 
@@ -116,16 +114,16 @@ void CBS::handleCollision(priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSN
                 Constraint c = Constraint(agent_index, collision.location, collision.type, collision.time,  EDGE);
                 newNode->constraints.push_back(c);
             }
-            else if(random_assign == 2)
-            {
-                Constraint c = Constraint(agent_index, collision.type, collision.location, collision.time-1,  EDGE);
-                newNode->constraints.push_back(c);
-            }
-            else
-            {
-                Constraint c = Constraint(agent_index, collision.location, collision.type, collision.time-1,  EDGE);
-                newNode->constraints.push_back(c);
-            }
+            // else if(random_assign == 2)
+            // {
+            //     Constraint c = Constraint(agent_index, collision.type, collision.location, collision.time-1,  EDGE);
+            //     newNode->constraints.push_back(c);
+            // }
+            // else
+            // {
+            //     Constraint c = Constraint(agent_index, collision.location, collision.type, collision.time-1,  EDGE);
+            //     newNode->constraints.push_back(c);
+            // }
         }
         // find new path for agent given these constraints
         Path newPath = a_star.find_path(agent_index, newNode->constraints);
@@ -191,6 +189,10 @@ vector<Path> CBS::find_solution() {
     int stuck;
     // Line 5
     while (!open.empty()) {
+        if((clock() - start)/(double) CLOCKS_PER_SEC > end)
+        {
+            return vector<Path>(); // return "No solution"
+        }
         // TODO: implement the high-level of CBS
         // Line  6: examine the node w/ smallest cost
         top = open.top();
@@ -232,7 +234,7 @@ vector<Path> CBS::find_solution() {
                 handleCollision(&open, top, collision);
                 // cerr << "open.size() AFTER: " << open.size() << endl;
                 open.pop();
-                break;
+                // break;
             }
         }
         // Line (8,9) no collisions observed through out paths

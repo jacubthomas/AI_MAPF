@@ -152,13 +152,13 @@ CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/AStarP
   /Library/Developer/CommandLineTools/usr/include/c++/v1/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/_types/_wctrans_t.h \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ostream \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ios \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/mutex \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__mutex_base \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/chrono \
-  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ratio \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/system_error \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__errc \
@@ -391,13 +391,13 @@ CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/CBS.cp
   /Library/Developer/CommandLineTools/usr/include/c++/v1/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/_types/_wctrans_t.h \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ostream \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ios \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/mutex \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__mutex_base \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/chrono \
-  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ratio \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/system_error \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__errc \
@@ -466,10 +466,14 @@ CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/CBS.cp
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/_types/_nl_item.h \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/bitset \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/queue \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/deque \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/istream \
-  /Library/Developer/CommandLineTools/usr/include/c++/v1/queue \
-  /Library/Developer/CommandLineTools/usr/include/c++/v1/deque
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/set \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/__tree \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/__node_handle \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/optional
 
 CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/MAPFInstance.cpp.o: /Users/jacobharrington/Public/CSCI-360/Project_3/code/MAPFInstance.cpp \
   /Users/jacobharrington/Public/CSCI-360/Project_3/code/MAPFInstance.h \
@@ -621,6 +625,7 @@ CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/MAPFIn
   /Library/Developer/CommandLineTools/usr/include/c++/v1/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/_types/_wctrans_t.h \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/fstream \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ostream \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ios \
@@ -628,7 +633,6 @@ CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/MAPFIn
   /Library/Developer/CommandLineTools/usr/include/c++/v1/mutex \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__mutex_base \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/chrono \
-  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ratio \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/system_error \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__errc \
@@ -856,13 +860,13 @@ CMakeFiles/task2.dir/Users/jacobharrington/Public/CSCI-360/Project_3/code/Priori
   /Library/Developer/CommandLineTools/usr/include/c++/v1/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/_types/_wctrans_t.h \
+  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ostream \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ios \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/mutex \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__mutex_base \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/chrono \
-  /Library/Developer/CommandLineTools/usr/include/c++/v1/ctime \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/ratio \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/system_error \
   /Library/Developer/CommandLineTools/usr/include/c++/v1/__errc \
@@ -1176,6 +1180,10 @@ CMakeFiles/task2.dir/task2.cpp.o: task2.cpp \
 
 /Library/Developer/CommandLineTools/usr/include/c++/v1/stack:
 
+/Library/Developer/CommandLineTools/usr/include/c++/v1/__tree:
+
+/Library/Developer/CommandLineTools/usr/include/c++/v1/set:
+
 /Users/jacobharrington/Public/CSCI-360/Project_3/code/CBS.h:
 
 /Users/jacobharrington/Public/CSCI-360/Project_3/code/CBS.cpp:
@@ -1300,8 +1308,6 @@ CMakeFiles/task2.dir/task2.cpp.o: task2.cpp \
 
 /Library/Developer/CommandLineTools/usr/include/c++/v1/system_error:
 
-/Library/Developer/CommandLineTools/usr/include/c++/v1/ctime:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/sys/_types/_u_int64_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/xlocale/_stdio.h:
@@ -1311,6 +1317,8 @@ CMakeFiles/task2.dir/task2.cpp.o: task2.cpp \
 /Library/Developer/CommandLineTools/usr/include/c++/v1/tuple:
 
 /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:
+
+/Library/Developer/CommandLineTools/usr/include/c++/v1/ctime:
 
 /Library/Developer/CommandLineTools/usr/include/c++/v1/locale.h:
 

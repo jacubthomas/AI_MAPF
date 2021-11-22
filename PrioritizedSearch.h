@@ -6,9 +6,13 @@
 class PrioritizedSearch {
 public:
   vector<Path> find_solution();
-  PrioritizedSearch(const MAPFInstance& ins): a_star(ins) {}
+  PrioritizedSearch(const MAPFInstance& ins): a_star(ins) 
+  {
+    start = clock();
+  }
   void preventGoalBlocking(list<Constraint> &constraints, int agent, int pathlength);
-
+  clock_t start;
+  double end = 10;
 private:
   AStarPlanner a_star;
 };

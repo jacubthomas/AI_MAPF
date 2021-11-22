@@ -89,7 +89,7 @@ bool AStarPlanner::isGoalBlocked(int agent_i, int current_location)
 Path AStarPlanner::find_path(int agent_id, const list<Constraint>& constraints) {
     int start_location = ins.start_locations[agent_id];
     int goal_location = ins.goal_locations[agent_id];
-
+    
     // Open list
     priority_queue<AStarNode*, vector<AStarNode*>, CompareAStarNode> open;
 
@@ -106,6 +106,10 @@ Path AStarPlanner::find_path(int agent_id, const list<Constraint>& constraints) 
 
     // Consider nodes as they surface in the priority queue
     while (!open.empty()) {
+         if((clock() - start)/(double) CLOCKS_PER_SEC > end)
+        {
+            return vector<int>(); // return "No solution"
+        }
         auto curr = open.top();
         open.pop();
 
