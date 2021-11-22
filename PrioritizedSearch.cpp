@@ -31,15 +31,17 @@ vector<Path> PrioritizedSearch::find_solution() {
     for (int i = 0; i < num_of_agents; i++) {
         priorities.push_back(i);
     }
+
     list<Constraint> constraints;
     // plan paths
     for (int i : priorities) {
-      // TODO: Transform already planned paths into constraints
-      //  Replace the following line with something like paths[i] = a_star.find_path(i, constraints);
+      
+      // search for solution must return within interval (10 seconds by .h currently)
       if((clock() - start)/(double) CLOCKS_PER_SEC > end)
         {
             return paths; // return "No solution"
         }
+
       // agent 0 is top priority, no constraints 
       if(i == 0)
         paths[i] = a_star.find_path(i);
@@ -58,7 +60,7 @@ vector<Path> PrioritizedSearch::find_solution() {
             // if so, x can't arrive until after i
             if(a_star.ins.goal_locations.at(x) == paths[i].at(step))
             {
-              // blocks x until after i passes through
+              // Vertex Constraint: blocks x until after i passes through
               for(int k=1; k<step;k++)
               {
                 c = Constraint(x, paths[i].at(step), -1, k, VERTEX);
@@ -66,28 +68,24 @@ vector<Path> PrioritizedSearch::find_solution() {
               }
               if(step > 0)
               {
-                // check for adj squares, if == 2, this is a passage way block - can't be here [0,t-1], repeat until adj > 2
-              int backstep = step-1;
-              list<int> path_blocker= a_star.ins.get_adjacent_locations(paths[i].at(backstep));
-              while(path_blocker.size() == 2)
-              {
-                for(int k=1; k<backstep;k++)
+                // backstep from spot to clear narrow corridor if present
+                int backstep = step-1;
+                list<int> path_blocker= a_star.ins.get_adjacent_locations(paths[i].at(backstep));
+
+                // check for adj squares, if == 2 this is a passage way block - can't be here [0,t-1], repeat until adj > 2
+                while(path_blocker.size() == 2)
                 {
-                  c = Constraint(x, paths[i].at(backstep), -1, k, VERTEX);
-                  constraints.push_back(c);
+                  // disallow x to be on path until i has passed through
+                  for(int k=1; k<backstep;k++)
+                  {
+                    c = Constraint(x, paths[i].at(backstep), -1, k, VERTEX);
+                    constraints.push_back(c);
+                  }
+                  //prevents segfault
+                  if(backstep-1 <= 0)
+                    break;
+                  path_blocker = a_star.ins.get_adjacent_locations(paths[i].at(backstep--));
                 }
-                path_blocker = a_star.ins.get_adjacent_locations(paths[i].at(backstep--));
-              }
-              for(int tiles: path_blocker)
-              {
-                if(tiles == paths[i].at(backstep-1))
-                {
-                  cerr << "found it: " <<  endl;
-                  cerr << tiles << " : " << backstep -1  << endl;
-                  c = Constraint(x, tiles, -1, backstep, VERTEX);
-                  constraints.push_back(c);
-                }
-              }
               }
             }
             // x cannot be on top of i
@@ -105,7 +103,14 @@ vector<Path> PrioritizedSearch::find_solution() {
           time++;
         }
         preventGoalBlocking(constraints, i, paths[i].size());
-        if (paths[i].empty()) {
+        
+        // Check for goal block, and return no solution if present 
+        if(paths[i].size() > 100)
+        {
+          paths[i].resize(0);
+        }
+        if (paths[i].empty()) 
+        {
           paths.resize(i);
           return paths;
         }

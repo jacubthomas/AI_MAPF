@@ -34,8 +34,6 @@ bool AStarPlanner::evaluateConstraints(Constraint abide1, Constraint abide2, con
     bool safe = true;
     for(Constraint con : constraints)
     {
-        // cerr << "CONSTRAINT: " <<get<0>(con) << " : " << get<1>(con) << " : " << get<2>(con) << " : " << get<3>(con) << " : " << get<4>(con) << endl;
-        // cerr << "ABIDE2: "<< get<0>(abide2) << " : " << get<1>(abide2) << " : " << get<2>(abide2) << " : " << get<3>(abide2) << " : " << get<4>(abide2) << endl;
         if(get<0>(con) == get<0>(abide1) &&
             get<1>(con) == get<1>(abide1) &&
             get<2>(con) == get<2>(abide1) &&  
@@ -96,7 +94,6 @@ Path AStarPlanner::find_path(int agent_id, const list<Constraint>& constraints) 
     // Unordered map is an associative container that contains key-value pairs with unique keys.
     // The following unordered map is used for duplicate detection, where the key is the location of the node.
     // unordered_map<int, AStarNode*> all_nodes;
-    // TODO: For Task 1, you need to replace the above line with
     unordered_map<pair<int, int>, AStarNode*, hash_pair> all_nodes;
 
     int h = ins.get_Manhattan_distance(start_location, goal_location); // h value for the root node

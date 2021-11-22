@@ -6,57 +6,60 @@
 
 Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
 {
-    // look at every step in a
-    for(int step: a)
+    // examine every other path against a's path
+    for(int i=0; i<node->paths.size(); i++)
     {
-        // examine every other path against a's path
-        for(int i=0; i<node->paths.size(); i++)
-        {
-            Path p = node->paths.at(i);
-            // prevents self-comparison
-            if(a!=p)
-            {
-                //if path[a] is shorter than path[b]
-                bool stops_short = false;
-                if(a.size() < p.size())
-                    stops_short = true;
+        // get path[i]
+        Path p = node->paths.at(i);
 
-                // compares each step
-                for(int j=0; j<p.size();j++)
+        // prevents self-comparison
+        if(a!=p)
+        {
+            //if path[a] is shorter than path[b]
+            bool stops_short_a = false;
+            if(a.size() < p.size())
+                stops_short_a = true;
+
+            // look at every step in a
+            for(int k=0; k<a.size();k++)
+            {
+                // prevents segfault
+                if(p.size() > k)
                 {
-                    // i/e prevents segfault, for |a| < |p|
-                    if(stops_short)
+                    // vertex collision
+                    if(a.at(k) == p.at(k))
                     {
-                        // collision found
-                        if(a.at(a.size()-1) == p.at(j))
+                        return Collision(a, p, k, p.at(k), agent_index, i, 0);
+                    }
+                    // prevents segfault
+                    if(a.size() > k+1 && p.size() > k+1)
+                    {
+                        // edge collision
+                        if(a.at(k+1) == p.at(k) && a.at(k) == p.at(k+1))
                         {
-                            // cerr << " test 1" << endl;
-                            // cerr << "agent: "  << agent_index << ", at: " << p.at(j) << ", time: " << j << endl;
-                            return Collision(a, p, j, p.at(j), agent_index, i, 0);
-                        }
-                        if(a.at(a.size()-1) == p.at(j))
-                        {
-                            // cerr << " TEST2" << endl;
-                            return Collision(a, p, j, a.at(a.size()-1), agent_index, i, p.at(j-1));
+                            return Collision(a, p, k+1, a.at(k), agent_index, i, p.at(k));
                         }
                     }
-                    else
+                }
+                else
+                {
+                    // vertex collision
+                    if(a.at(k) == p.at(p.size()-1))
                     {
-                        // collision found
-                        if(a.at(j) == p.at(j))
-                        {
-                            // cerr << " test 3" << endl;
-                            // cerr << "agent: "  << agent_index << ", at: " << p.at(j) << ", time: " << j << endl;
-                            return Collision(a, p, j, p.at(j), agent_index, i, 0);
-                        }
-                        if(a.size() > j+1 && p.size() > j+1)
-                        {
-                            if(a.at(j) == p.at(j+1) && a.at(j+1) == p.at(j))
-                            {
-                                // cerr << " TEST 4" << endl;
-                                return Collision(a, p, j+1, a.at(j), agent_index, i, p.at(j));
-                            }
-                        }
+                        return Collision(a, p, k, p.at(p.size()-1), agent_index, i, 0);
+                    }
+                }
+            }
+
+            // if a reaches goal state prior to k 
+            if(stops_short_a)
+            {
+                for(int k=a.size()-1; k<p.size(); k++)
+                {
+                    // vertex collision
+                    if(a.at(a.size()-1) == p.at(k))
+                    {
+                        return Collision(a, p, k, p.at(k), agent_index, i, 0);
                     }
                 }
             }
@@ -138,6 +141,8 @@ void CBS::handleCollision(priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSN
         }
     }
 }
+
+// sums the cost of all paths for optimized solution comparison
 int CBS::getSumOfCosts(CBSNode* node)
 {
     int sum = 0;
@@ -147,7 +152,9 @@ int CBS::getSumOfCosts(CBSNode* node)
     }
     return sum;
 }
-vector<Path> CBS::find_solution() {
+
+vector<Path> CBS::find_solution() 
+{
     priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSNode> open; // open list
     /* generate the root CBS node */
     auto root = new CBSNode();
@@ -178,15 +185,18 @@ vector<Path> CBS::find_solution() {
     // iterate through priority queue until optimal solution is found, none remain, or 10 seconds elapse
     while (!open.empty()) {
 
+        // cerr << open.top()->cost << endl;
         // 10-second search threshold
         if((clock() - start)/(double) CLOCKS_PER_SEC > end)
         {
             return vector<Path>(); // return "No solution"
         }
+
         // examine the node w/ smallest cost
         top = open.top();
         open.pop();
 
+        // if thiis holds after loop, optimal solution found
         bool collision_free = true;
 
             // look for a collision in all paths of node
