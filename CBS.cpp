@@ -30,7 +30,14 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                         // collision found
                         if(a.at(a.size()-1) == p.at(j))
                         {
+                            // cerr << " test 1" << endl;
+                            // cerr << "agent: "  << agent_index << ", at: " << p.at(j) << ", time: " << j << endl;
                             return Collision(a, p, j, p.at(j), agent_index, i, 0);
+                        }
+                        if(a.at(a.size()-1) == p.at(j))
+                        {
+                            // cerr << " TEST2" << endl;
+                            return Collision(a, p, j, a.at(a.size()-1), agent_index, i, p.at(j-1));
                         }
                     }
                     else
@@ -38,13 +45,15 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                         // collision found
                         if(a.at(j) == p.at(j))
                         {
+                            // cerr << " test 3" << endl;
+                            // cerr << "agent: "  << agent_index << ", at: " << p.at(j) << ", time: " << j << endl;
                             return Collision(a, p, j, p.at(j), agent_index, i, 0);
                         }
                         if(a.size() > j+1 && p.size() > j+1)
                         {
                             if(a.at(j) == p.at(j+1) && a.at(j+1) == p.at(j))
                             {
-                                // cerr << "EDGE collision detected: " << a.at(j) << " : " << p.at(j) << " : " << j << endl;
+                                // cerr << " TEST 4" << endl;
                                 return Collision(a, p, j+1, a.at(j), agent_index, i, p.at(j));
                             }
                         }
@@ -97,33 +106,16 @@ void CBS::handleCollision(priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSN
         // Edge-based collision - they ran into each other
         else
         {
-            // int random_assign = rand() % 4;
-            int random_assign = rand() % 1;
-            if(random_assign == 0)
-            {
-
-                // cerr << "agent_index : " << agent_index << " : " << newNode->paths.at(agent_index).at(0) << " : " 
-                // << collision.type << " : " << collision.location << " : " << collision.time << endl;
-                Constraint c = Constraint(agent_index, collision.type, collision.location, collision.time, EDGE);
-                newNode->constraints.push_back(c);
-                // Constraint c = Constraint(agent_index, collision.location, -1, collision.time,  VERTEX);
-                // newNode->constraints.push_back(c);
-            }
-            else if(random_assign == 1)
+            if(i==0)
             {
                 Constraint c = Constraint(agent_index, collision.location, collision.type, collision.time,  EDGE);
                 newNode->constraints.push_back(c);
             }
-            // else if(random_assign == 2)
-            // {
-            //     Constraint c = Constraint(agent_index, collision.type, collision.location, collision.time-1,  EDGE);
-            //     newNode->constraints.push_back(c);
-            // }
-            // else
-            // {
-            //     Constraint c = Constraint(agent_index, collision.location, collision.type, collision.time-1,  EDGE);
-            //     newNode->constraints.push_back(c);
-            // }
+            else if(i==1)
+            {
+                Constraint c = Constraint(agent_index, collision.type, collision.location, collision.time, EDGE);
+                newNode->constraints.push_back(c);
+            }
         }
         // find new path for agent given these constraints
         Path newPath = a_star.find_path(agent_index, newNode->constraints);
@@ -138,7 +130,6 @@ void CBS::handleCollision(priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSN
             for(int k=0; k<newNode->paths.at(agent_index).size();k++)
             {
                 updatePath->at(k) = newPath.at(k);
-                // cerr << newNode->paths.at(agent_index).at(k) << " , ";
             }
 
             // Update cost of Q
@@ -167,80 +158,50 @@ vector<Path> CBS::find_solution() {
     root->paths.resize(a_star.ins.num_of_agents);
     for (int i = 0; i < a_star.ins.num_of_agents; i++) {
 
-        // TODO: if you change the input format of function find_path()
-        //  you also need to change the following line to something like
-        // root->paths[i] = a_star.find_path(i, list<Constraint>());
-
-        // Line 2: find initial paths w/o constraints 
+        // find initial paths w/o constraints 
         root->paths[i] = a_star.find_path(i);
         if (root->paths[i].empty()) {
             cout << "Fail to find a path for agent " << i << endl;
             return vector<Path>(); // return "No solution"
         }
     }
-    // Line 3: compute the cost of the root node
+    // compute the cost of the root node
     for (const auto& path : root->paths)
         root->cost += (int)path.size() - 1;
 
-    // Line 4: put the root node into open list
+    // put the root node into open list
     open.push(root);
     CBSNode* top;
     int stuck_count = 0;
     int stuck;
-    // Line 5
+
+    // iterate through priority queue until optimal solution is found, none remain, or 10 seconds elapse
     while (!open.empty()) {
+
+        // 10-second search threshold
         if((clock() - start)/(double) CLOCKS_PER_SEC > end)
         {
             return vector<Path>(); // return "No solution"
         }
-        // TODO: implement the high-level of CBS
-        // Line  6: examine the node w/ smallest cost
+        // examine the node w/ smallest cost
         top = open.top();
         open.pop();
-        // cerr << top->cost << endl;
-
-        set<int> paths_observed;
 
         bool collision_free = true;
 
-        // consider all paths
-        for(int i=0; i<top->paths.size();i++)
-        {
-            int path_index = -1;
-            int lowest_cost = INT32_MAX;
-            Path lowest_path;
-            // locates the lowest, unconsidered path
+            // look for a collision in all paths of node
             for(int j=0; j<top->paths.size();j++)
             {
-                // if lower than lowest and not already observed
-                if(top->paths.at(j).size() < lowest_cost &&  paths_observed.count(j) == 0)
+                Collision collision = findCollision(top, top->paths.at(j), j);
+                if(collision.time != 0)
                 {
-                    path_index = j;
-                    lowest_cost = top->paths.at(j).size();
-                    lowest_path = top->paths.at(j);
+                    handleCollision(&open, top, collision);
+                    collision_free = false;
                 }
             }
-            // marks path as considered
-            paths_observed.insert(path_index);
-
-            // Line 7
-            Collision collision = findCollision(top, lowest_path, path_index);
-            if(collision.time != 0)
-            {
-                collision_free = false;
-                int time = collision.time;
-                // cerr << "Collision observed: "  << collision.location << " @ " << time  << 
-                // " involving: " << collision.idx_a << " & " << collision.idx_b << endl;
-                handleCollision(&open, top, collision);
-                // cerr << "open.size() AFTER: " << open.size() << endl;
-                open.pop();
-                // break;
-            }
-        }
         // Line (8,9) no collisions observed through out paths
         if(collision_free)
         {
-            cout <<  "collision free: " <<  collision_free << endl;
             return top->paths;
         }
     }
