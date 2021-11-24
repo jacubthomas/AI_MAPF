@@ -169,124 +169,124 @@ int main(int argc, char *argv[]) {
     AStarPlanner a_star(ins);
     vector<Path> paths(ins.num_of_agents);
     list<Constraint> constraints;
-    if(ins.num_of_agents > 2)
-        corneredAdj(ins, constraints);
-    protectGoalZones(ins, constraints);
-    // consider every agent i
+    // if(ins.num_of_agents > 2)
+    //     corneredAdj(ins, constraints);
+    // protectGoalZones(ins, constraints);
+    // // consider every agent i
     for (int i = 0; i < ins.num_of_agents; i++) {
-        // cerr << "constraints outer loop" << endl;
+    //     // cerr << "constraints outer loop" << endl;
 
-        Constraint c;
-        // TODO: specify constraints here
-        // ⟨ai,x,−1,t,VERTEX⟩ ⟨ai,x,y,t,EDGE)
+    //     Constraint c;
+    //     // TODO: specify constraints here
+    //     // ⟨ai,x,−1,t,VERTEX⟩ ⟨ai,x,y,t,EDGE)
 
 
-        // ensure for each agent i, with regard to all other agents j
-        for(int j=0; j< ins.num_of_agents; j++)
-        {   
-            // cerr << "constraints inner loop" << endl;
-            //  prevent comparing agent to self
-            if( j != i)
-            {
-               // premise:if i and j start adjacent to each other
-               int temp = iADJj(ins, i, j, 1);
-               if(temp != -1)
-               {
-                    // idea: i cannot move into j immediately
-                    // how (1): if alt path available, must take that
-                    if(checkForAltPath(ins, constraints, i))
-                    {
-                        for(int x=0; x<10; x++)
-                        {
-                            c = Constraint(i, ins.start_locations.at(i), temp, x, EDGE);
-                            // cerr << "add : " << i << " : " << ins.start_locations.at(i) << " : " << temp << " : " << 1  << " : "<<  EDGE << endl;
-                            constraints.push_back(c);
-                        }
-                    }
-                    // how (2): only one path available; simply stall for a second
-                    else
-                    {
-                        c = Constraint(i, ins.start_locations.at(i), temp, 1, EDGE);
-                        // cerr << "add : " << i << " : " << ins.start_locations.at(i) << " : " << temp << " : " << 1  << " : "<<  EDGE << endl;
-                        constraints.push_back(c);
-                    }
+    //     // ensure for each agent i, with regard to all other agents j
+    //     for(int j=0; j< ins.num_of_agents; j++)
+    //     {   
+    //         // cerr << "constraints inner loop" << endl;
+    //         //  prevent comparing agent to self
+    //         if( j != i)
+    //         {
+    //            // premise:if i and j start adjacent to each other
+    //            int temp = iADJj(ins, i, j, 1);
+    //            if(temp != -1)
+    //            {
+    //                 // idea: i cannot move into j immediately
+    //                 // how (1): if alt path available, must take that
+    //                 if(checkForAltPath(ins, constraints, i))
+    //                 {
+    //                     for(int x=0; x<10; x++)
+    //                     {
+    //                         c = Constraint(i, ins.start_locations.at(i), temp, x, EDGE);
+    //                         // cerr << "add : " << i << " : " << ins.start_locations.at(i) << " : " << temp << " : " << 1  << " : "<<  EDGE << endl;
+    //                         constraints.push_back(c);
+    //                     }
+    //                 }
+    //                 // how (2): only one path available; simply stall for a second
+    //                 else
+    //                 {
+    //                     c = Constraint(i, ins.start_locations.at(i), temp, 1, EDGE);
+    //                     // cerr << "add : " << i << " : " << ins.start_locations.at(i) << " : " << temp << " : " << 1  << " : "<<  EDGE << endl;
+    //                     constraints.push_back(c);
+    //                 }
 
                     
-                    if(ins.num_of_agents <= 2)
-                    {
-                    c = Constraint(j, ins.start_locations.at(j), -1, 1, VERTEX);
-                    // cerr << "add : " << j << " : " << ins.start_locations.at(j) << " : " << -1 << " : " << 1  << " : "<<  VERTEX << endl;
-                    constraints.push_back(c);
-                    }
+    //                 if(ins.num_of_agents <= 2)
+    //                 {
+    //                 c = Constraint(j, ins.start_locations.at(j), -1, 1, VERTEX);
+    //                 // cerr << "add : " << j << " : " << ins.start_locations.at(j) << " : " << -1 << " : " << 1  << " : "<<  VERTEX << endl;
+    //                 constraints.push_back(c);
+    //                 }
 
-                    // idea: j cannot move towards i immediately
-                    // how (1): if alt path available, must take that
-                    if(checkForAltPath(ins, constraints, i))
-                    {
-                        for(int x=0; x<10; x++)
-                        {
-                            c = Constraint(j, ins.start_locations.at(j), ins.start_locations.at(i), x, EDGE);
-                            // cerr << "add : " << i << " : " << ins.start_locations.at(i) << " : " << temp << " : " << 1  << " : "<<  EDGE << endl;
-                            constraints.push_back(c);
-                        }
-                    }
-                    // how (2): only one path available; simply stall for a second
-                    else
-                    {
-                        c = Constraint(j, ins.start_locations.at(j), ins.start_locations.at(i), 1, EDGE);
-                        // cerr << "add : " << j << " : " << ins.start_locations.at(j) << " : " << ins.start_locations.at(i) << " : " << 1  << " : "<<  EDGE << endl;
-                        constraints.push_back(c);
-                    }
+    //                 // idea: j cannot move towards i immediately
+    //                 // how (1): if alt path available, must take that
+    //                 if(checkForAltPath(ins, constraints, i))
+    //                 {
+    //                     for(int x=0; x<10; x++)
+    //                     {
+    //                         c = Constraint(j, ins.start_locations.at(j), ins.start_locations.at(i), x, EDGE);
+    //                         // cerr << "add : " << i << " : " << ins.start_locations.at(i) << " : " << temp << " : " << 1  << " : "<<  EDGE << endl;
+    //                         constraints.push_back(c);
+    //                     }
+    //                 }
+    //                 // how (2): only one path available; simply stall for a second
+    //                 else
+    //                 {
+    //                     c = Constraint(j, ins.start_locations.at(j), ins.start_locations.at(i), 1, EDGE);
+    //                     // cerr << "add : " << j << " : " << ins.start_locations.at(j) << " : " << ins.start_locations.at(i) << " : " << 1  << " : "<<  EDGE << endl;
+    //                     constraints.push_back(c);
+    //                 }
 
-                    // lesser md cannot arrive at goal before greater
-                    int md_i = ins.get_Manhattan_distance(ins.start_locations.at(i), ins.goal_locations.at(i));
-                    int md_j = ins.get_Manhattan_distance(ins.start_locations.at(j), ins.goal_locations.at(j));
-                    int gmd = 0;
-                    int gma = -1;
-                    if(md_i > md_j){ gmd = md_i; gma = j; } 
-                    else if(md_i < md_j) { gmd = md_j; gma = i; }
-                    // if they're equal in md, this never runs
-                    for(int x=1; x < gmd; x++)
-                    {
-                        c = Constraint(gma, ins.goal_locations.at(gma), -1, x, VERTEX);
-                        // cerr << "add : " << gma << " : " << ins.goal_locations.at(gma) << " : " << "-1 : " << x  << " : "<<  VERTEX << endl;
-                        constraints.push_back(c);
-                    }
-               }
-                // premise:if i and j goals are adjacent to each other
-                temp = iADJj(ins, i, j, 2);
-                if(temp != -1)
-               {
-                    // lesser manhattan distance cannot arrive at goal before greater
-                    int md_i = ins.get_Manhattan_distance(ins.start_locations.at(i), ins.goal_locations.at(i));
-                    int md_j = ins.get_Manhattan_distance(ins.start_locations.at(j), ins.goal_locations.at(j));
+    //                 // lesser md cannot arrive at goal before greater
+    //                 int md_i = ins.get_Manhattan_distance(ins.start_locations.at(i), ins.goal_locations.at(i));
+    //                 int md_j = ins.get_Manhattan_distance(ins.start_locations.at(j), ins.goal_locations.at(j));
+    //                 int gmd = 0;
+    //                 int gma = -1;
+    //                 if(md_i > md_j){ gmd = md_i; gma = j; } 
+    //                 else if(md_i < md_j) { gmd = md_j; gma = i; }
+    //                 // if they're equal in md, this never runs
+    //                 for(int x=1; x < gmd; x++)
+    //                 {
+    //                     c = Constraint(gma, ins.goal_locations.at(gma), -1, x, VERTEX);
+    //                     // cerr << "add : " << gma << " : " << ins.goal_locations.at(gma) << " : " << "-1 : " << x  << " : "<<  VERTEX << endl;
+    //                     constraints.push_back(c);
+    //                 }
+    //            }
+    //             // premise:if i and j goals are adjacent to each other
+    //             temp = iADJj(ins, i, j, 2);
+    //             if(temp != -1)
+    //            {
+    //                 // lesser manhattan distance cannot arrive at goal before greater
+    //                 int md_i = ins.get_Manhattan_distance(ins.start_locations.at(i), ins.goal_locations.at(i));
+    //                 int md_j = ins.get_Manhattan_distance(ins.start_locations.at(j), ins.goal_locations.at(j));
 
-                    // greater manhattan distance value
-                    int gmd = 0;
+    //                 // greater manhattan distance value
+    //                 int gmd = 0;
 
-                    // greater manhattan distance variable
-                    int gma = -1;
-                    if(md_i > md_j){ gmd = md_i; gma = j;} 
-                    else if(md_i < md_j) { gmd = md_j; gma = i;}
+    //                 // greater manhattan distance variable
+    //                 int gma = -1;
+    //                 if(md_i > md_j){ gmd = md_i; gma = j;} 
+    //                 else if(md_i < md_j) { gmd = md_j; gma = i;}
 
-                    // if they're equal in md, this never runs
-                    // if not, prevent lesser manhattan distance from reaching goal prior to greater
-                    for(int x=1; x < gmd; x++)
-                    {
-                        c = Constraint(gma, ins.goal_locations.at(gma), -1, x, VERTEX);
-                        // cerr << "add : " << gma << " : " << ins.goal_locations.at(gma) << " : " << "-1 : " << x  << " : "<<  VERTEX << endl;
-                        constraints.push_back(c);
-                    }
-                    // Make lesser move out of way
-                    for(int x=gmd-2; x < gmd; x++)
-                    {
-                        c = Constraint(gma, ins.goal_locations.at(gma)-1, -1, x, VERTEX);
-                        // cerr << "add : " << gma << " : " << ins.goal_locations.at(gma)-1 << " : " << "-1 : " << x  << " : "<<  VERTEX << endl;
-                        constraints.push_back(c);
-                    }
-               }
-            }
-        }
+    //                 // if they're equal in md, this never runs
+    //                 // if not, prevent lesser manhattan distance from reaching goal prior to greater
+    //                 for(int x=1; x < gmd; x++)
+    //                 {
+    //                     c = Constraint(gma, ins.goal_locations.at(gma), -1, x, VERTEX);
+    //                     // cerr << "add : " << gma << " : " << ins.goal_locations.at(gma) << " : " << "-1 : " << x  << " : "<<  VERTEX << endl;
+    //                     constraints.push_back(c);
+    //                 }
+    //                 // Make lesser move out of way
+    //                 for(int x=gmd-2; x < gmd; x++)
+    //                 {
+    //                     c = Constraint(gma, ins.goal_locations.at(gma)-1, -1, x, VERTEX);
+    //                     // cerr << "add : " << gma << " : " << ins.goal_locations.at(gma)-1 << " : " << "-1 : " << x  << " : "<<  VERTEX << endl;
+    //                     constraints.push_back(c);
+    //                 }
+    //            }
+    //         }
+    //     }
 
         paths[i] = a_star.find_path(i, constraints);
 

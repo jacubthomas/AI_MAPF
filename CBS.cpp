@@ -50,7 +50,6 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                     }
                 }
             }
-
             // if a reaches goal state prior to k 
             if(stops_short_a)
             {
@@ -179,13 +178,10 @@ vector<Path> CBS::find_solution()
     // put the root node into open list
     open.push(root);
     CBSNode* top;
-    int stuck_count = 0;
-    int stuck;
 
     // iterate through priority queue until optimal solution is found, none remain, or 10 seconds elapse
     while (!open.empty()) {
 
-        // cerr << open.top()->cost << endl;
         // 10-second search threshold
         if((clock() - start)/(double) CLOCKS_PER_SEC > end)
         {
@@ -209,7 +205,7 @@ vector<Path> CBS::find_solution()
                     collision_free = false;
                 }
             }
-        // Line (8,9) no collisions observed through out paths
+        // no collisions observed through out paths
         if(collision_free)
         {
             return top->paths;

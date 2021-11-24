@@ -102,13 +102,14 @@ vector<Path> PrioritizedSearch::find_solution() {
           }
           time++;
         }
-        preventGoalBlocking(constraints, i, paths[i].size());
-        
+
         // Check for goal block, and return no solution if present 
+        preventGoalBlocking(constraints, i, paths[i].size());
         if(paths[i].size() > 100)
         {
           paths[i].resize(0);
         }
+        
         if (paths[i].empty()) 
         {
           paths.resize(i);
