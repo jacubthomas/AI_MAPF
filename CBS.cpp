@@ -6,11 +6,20 @@
 
 Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
 {
+    set<int> sofar;
     // examine every other path against a's path
     for(int i=0; i<node->paths.size(); i++)
     {
+        // check for collisions against paths in random order
+        int randomizeme = rand()%node->paths.size();
+        while(sofar.count(randomizeme)!=0)
+        {
+            randomizeme = rand()%node->paths.size();
+        }
+        sofar.insert(randomizeme);
+
         // get path[i]
-        Path p = node->paths.at(i);
+        Path p = node->paths.at(randomizeme);
 
         // prevents self-comparison
         if(a!=p)
@@ -29,7 +38,7 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                     // vertex collision
                     if(a.at(k) == p.at(k))
                     {
-                        return Collision(a, p, k, p.at(k), agent_index, i, 0);
+                        return Collision(a, p, k, p.at(k), agent_index, randomizeme, 0);
                     }
                     // prevents segfault
                     if(a.size() > k+1 && p.size() > k+1)
@@ -37,7 +46,7 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                         // edge collision
                         if(a.at(k+1) == p.at(k) && a.at(k) == p.at(k+1))
                         {
-                            return Collision(a, p, k+1, a.at(k), agent_index, i, p.at(k));
+                            return Collision(a, p, k+1, a.at(k), agent_index, randomizeme, p.at(k));
                         }
                     }
                 }
@@ -46,19 +55,7 @@ Collision CBS::findCollision(CBSNode* node, Path a, int agent_index)
                     // vertex collision
                     if(a.at(k) == p.at(p.size()-1))
                     {
-                        return Collision(a, p, k, p.at(p.size()-1), agent_index, i, 0);
-                    }
-                }
-            }
-            // if a reaches goal state prior to k 
-            if(stops_short_a)
-            {
-                for(int k=a.size()-1; k<p.size(); k++)
-                {
-                    // vertex collision
-                    if(a.at(a.size()-1) == p.at(k))
-                    {
-                        return Collision(a, p, k, p.at(k), agent_index, i, 0);
+                        return Collision(a, p, k, p.at(p.size()-1), agent_index, randomizeme, 0);
                     }
                 }
             }
@@ -138,6 +135,10 @@ void CBS::handleCollision(priority_queue<CBSNode*, vector<CBSNode*>, CompareCBSN
             newNode->cost = getSumOfCosts(newNode);
             open->push(newNode);
         }
+        // else
+        // {
+        //     cerr << "cannot find path for agent  " << agent_index << endl;
+        // }
     }
 }
 
