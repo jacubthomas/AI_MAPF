@@ -52,6 +52,7 @@ vector<Path> PrioritizedSearch::find_solution() {
         int time = 0;
         for(int step=0; step < paths[i].size(); step++)
         {  
+          list<int> adj_loc = a_star.ins.get_adjacent_locations(paths[i].at(step));
           // Push constraint onto all agents w/ larger ids (less priority)
           Constraint c;
           for(int x=i+1; x< num_of_agents; x++)
@@ -93,12 +94,8 @@ vector<Path> PrioritizedSearch::find_solution() {
             constraints.push_back(c);
             
             // x cannot move into i
-            list<int> adj_loc = a_star.ins.get_adjacent_locations(paths[i].at(step));
-            for(int loc: adj_loc)
-            {
-              c = Constraint(x, loc, paths[i].at(step), time, EDGE);
-              constraints.push_back(c);
-            }
+            c = Constraint(x, paths[i].at(step), -1, time+1, VERTEX);
+            constraints.push_back(c);
           }
           time++;
         }
