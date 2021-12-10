@@ -12,8 +12,7 @@ public:
     vector<int> start_locations;
     vector<int> goal_locations;
     int num_of_agents;
-    clock_t start;
-    double end;
+
     
     // return true if the location is blocked by an obstacle.
     inline bool blocked(int location) const {return my_map[location]; }
@@ -26,7 +25,6 @@ public:
     bool load_instance(const string& fname); // load instance from file
     void print_instance() const;
 
-    void clockStart();
 
 private:
   vector<bool> my_map; // my_map[i] = true iff location i is blocked
